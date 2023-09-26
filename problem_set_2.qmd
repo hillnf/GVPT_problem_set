@@ -26,11 +26,24 @@ Using the `states` data, produce a scatterplot of the variables `womleg_2015` an
 The `states` data set can be found in `poliscidata::states`. Take a look at `?states` to see what these variables measure.
 :::
 
+```{r}
+
+
+
+
+
+```
+
 ## Question 2
 
 *Points: 5*
 
 Regress `womleg_2015` (as the dependent variable) on `libpct_m` and report the results in a professionally formatted table. Write the model equation with the estimated coefficients and interpret them. What does the value of $R^2$ tell us about this model?
+
+```{r}
+
+
+```
 
 ## Question 3
 
