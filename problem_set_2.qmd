@@ -16,6 +16,19 @@ Please upload your completed assignment to the ELMs course site (under the assig
 
 **Total points: 30**
 
+
+```{r}
+library(tidyverse)
+library(wbstats)
+library(poliscidata)
+library(countrycode)
+library(broom)
+library(janitor)
+library(ggridges)
+library(modelsummary)
+
+```
+
 ## Question 1
 
 *Points: 5*
@@ -26,11 +39,73 @@ Using the `states` data, produce a scatterplot of the variables `womleg_2015` an
 The `states` data set can be found in `poliscidata::states`. Take a look at `?states` to see what these variables measure.
 :::
 
+```{r}
+
+ggplot(data = poliscidata::states, aes(x = libpct_m, y = womleg_2015)) +
+  geom_point() +  
+  labs(x = "Frequency Mass Public Liberal", y = "Women Legislator in 2015") +  
+  ggtitle("Scatterplot") 
+
+cor(states$womleg_2015, states$libpct_m)
+
+?states
+```
+
+
+Answer: 
+
+Scatter plot shows positive correlation between the percent mass public Liberal variable and the Women in State legislates variable with some outliers in the data that cannot be explicitly determined by the plot itself. 
+
+
+ Equation: 
+
+$$ Correlation Coeffienct = Σ (womleg_2015 - womleg_2015) / √Σ(womleg_2015 - womleg_2015)^2 - Σ(libpct_m - libpct_m Mean $$ 
+
+
+
+
 ## Question 2
 
 *Points: 5*
 
 Regress `womleg_2015` (as the dependent variable) on `libpct_m` and report the results in a professionally formatted table. Write the model equation with the estimated coefficients and interpret them. What does the value of $R^2$ tell us about this model?
+
+```{r}
+
+library(tidyverse)
+library(poliscidata)
+
+
+regress_m_1 <- lm(womleg_2015 ~ libpct_m, states)
+regress_m_1
+
+modelsummary(
+  regress_m_1, 
+  statistic = NULL,
+  coef_rename = c("libpct_m" = "Public_liberal"),
+  gof_map = "nobs"
+)
+
+summary(regress_m_1)
+
+glance(regress_m_1)
+
+
+
+```
+Answer:
+
+
+Model Equation ~ Y = wom_leg2015 + libpct_m(X)
+
+
+$$ Y = 1.52 + 1.15(libpct_m) $$
+R Squared is .3707 which means there is a weak relationship in this regression
+model and does not allow us to have much confidence in Y being explained by X.
+
+
+
+
 
 ## Question 3
 
@@ -42,6 +117,69 @@ Based on this regression, find the predicted value, the observed value, and comp
 Think RSS.
 :::
 
+```{r}
+library(tidyverse)
+library(states)
+library(poliscidata)
+library(ggplot2)
+library(wbstats)
+library(countrycode)
+library(broom)
+library(janitor)
+library(ggridges)
+library(modelsummary)
+
+regress_m_1
+tidy(regress_m_1)
+library(poliscidata)
+library(states)
+regress_m_1_cg <- tidy(regress_m_1)
+
+augment(regress_m_1)
+
+beta_0 <- regress_m_1_cg |>
+  filter(term == "(Intercept)") |>
+  pull(estimate)
+
+beta_0
+
+beta_1 <- regress_m_1_cg |>
+  filter(term == "libpct_m") |>
+  pull(estimate)
+beta_1
+
+?state
+states |>
+  filter(stateid%in%c("CO    ", "GA    ")) |>
+  select(stateid, libpct_m)
+
+
+beta_0 + beta_1 * 21.67878
+
+
+beta_0 + beta_1 * 17.61538
+
+ 
+
+
+```
+
+# Colorado
+  Predicted Value : 26.37
+  Observed Value : 21.68
+  Residual : 4.69
+
+# Georgia
+  Predicted Value : 21.71
+  Observed Value : 17.612
+  Residual : 4.1
+
+# Total Aggregate Error
+The total aggregate error for Colorado and Georgia is .59.
+
+
+```
+
 ## Question 4
 
 *Points: 5*
@@ -50,11 +188,23 @@ Using the `states` dataset, assess the relationship between the following two va
 
 ::: callout-note
 The variable `Obama_win12` is a dichotomous indicator of whether Obama won the state in 2012 (Obama won; Obama lost). The variable `gun_rank3` represents the general (ordinal) extent of gun restrictions in each state (more restrictions; middle restrictions; less restrictions).
-:::
 
-::: callout-caution
-Please note that you would customarily want a greater number of observations within each cell before conducting such an analysis.
-:::
+```{r}
+
+library(poliscidata)
+library(modelsummary)
+
+cross_tab <- table(states$obama_win12, states$gun_rank3)
+
+print(cross_tab)
+
+```
+The cross tab indicates that President Obama won more states in the 2012
+election in states that have more restrictive guns laws as opposed to those with
+less restrictive guns laws. This was indicate a strong association between the 
+two variables
+
+
 
 ## Question 5
 
@@ -67,7 +217,29 @@ Table entries are raw counts of observations within each cell.
 :::
 
 ![](img/ps2_cross_tab.png)
+Answer:
 
+                        Support for Scientific Reserach
+Religious Attendance | Too Little ~ About Right ~ Too Much |    Total
+--------------------
+                  Low |     342         356          106          804 
+              Moderate|     190         213           51          454
+                  High|     182         287           91          560
+                Total |     714(38.27%) 856(47.98)    248(13.64) 1818 
+                
+                
+The hypothesis for this study, as indicated by the data in the cross table, is 
+weak and inconclusive. There is far more people who indicate the government
+either supports scientific research too little (38%) or about right (47%) than those who
+would indicate the government support for science is too large (~14%).
+                
+                
+
+
+
+
+
+```
 ## Question 6
 
 *Points: 5*
@@ -78,10 +250,39 @@ Say I wish to explore the relationship between the relative advantage of Democra
 
 Create a new variable (i.e., `dem_adv`) based on the `dem_advantage` variable. Calculate the summary statistics of `dem_advantage` and assign the following values to our new variable: if `dem_advantage` is less than the first quartile, set `dem_adv` to `Low`; if the value for `dem_advantage` is greater than the first quartile and less than the third quartile, set the value to `Mid`; and if the value of `dem_advantage` is greater than the third quartile, set the value to `High`.
 
+```{r}
+
+quartiles <- quantile(states$dem_advantage, probs = c(0.25, 0.75))
+quartiles
+
+states <- states <- states %>%
+  mutate(dem_adv = case_when(
+    dem_advantage < quartiles[1] ~ "Low",
+    dem_advantage >= quartiles[1] & dem_advantage < quartiles[2] ~ "Mid",
+    dem_advantage > quartiles[2] ~ "High"
+  ))
+
+summary(states$dem_advantage)
+
+
+ 
+```
+
 ### Part B
 
 Create a crosstab using R; include your results in a professionally formatted table.
 
+```{r}
+
+datasummary_crosstab(abort_rank3 ~ dem_adv, data = states)
+
+
+
+
+```
+
 ### Part C
 
 What relationship (if any) is there between the relative advantage of Democrats is a given state and the restrictiveness of Abortion policy?
+
+Answer: The cross table indicates that the democratic party has high advantage in states that restricted abortion (56.2%) as well has a high advantage in states with more restrictied abortion policies (64.7%). Overall,  the democrats have a majority meduim amount of advantage across all states. 
