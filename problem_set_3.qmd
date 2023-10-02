@@ -20,6 +20,16 @@ Please upload your completed assignment to the ELMs course site (under the assig
 
 Suppose I want to examine the hypothesis that consuming political news coverage from cable network channels (e.g., CNN, MSNBC, Fox News, etc.) causes citizens to have less trust in government than if they were to consume it from mainstream print media (e.g., New York Times, Wall Street Journal, etc.). What is more, suppose that I believe that this effect is greatest among "young" citizens. Design the contours of an experiment to test this proposition (and be sure to sketch the key elements of the experimental design). Second, briefly describe any significant shortcomings that the experimental design might have.
 
+\-\--
+
+**Answer:**
+
+The ideal method for testing this hypothesis would be to create an experiment where a randomly selected pool of participants are placed into two groups, on in which is shown exclusively cable media and one that is shown exclusively print media for a set period of time and then asked a series of simple survey questions to determine the level of trust that they feel towards the US government both before and after viewing the relevant media content.
+
+A concurrent part of the experiment can also include the same set up but with age added as an additional independent variable (i.e have two groups of young and old people), so as to test the theory that younger members of society are more likely to have less in the government.
+
+There are several key potenial shorting comings to this experiment. First, is the aspect of external validity, as new consumption is a complex and often long term process, a short term and highly controled environment like this experiment proposed might not be able to be generalized to the larger context. Second is the potential selection and sampling bias, as those selected for this study might not be representative of the general population as a whole or hold preconceived notions of trust in government that could skew the experiment.
+
 ## Question 2
 
 *Points: 10*
@@ -28,11 +38,19 @@ Below are four hypothetical research designs to determine the effects of democra
 
 A.  A sample of educational funding levels for every country in Europe for each of the last 100 years.
 
+    Low sample variability as it covers every European country from every year for the past century creating comprehensive data set for Europe with a little chance for randomness. Potential bias in only exclusively looking at the 44 countries in Europe as opposed to a random selection of countries from across the globe.
+
 B.  A sample of educational funding levels in five randomly picked countries drawn from the global population of countries for each of the last 10 years.
+
+    Medium to high variability as the selection of five countries for each year provides a high degree of randomness. Potential bias in that the countries selected may not be representative of the general global and or regional trends depending on which countries are selected.
 
 C.  A survey of educational administrators that yields responses that allow for a comparison of educational funding levels in Russia and the United States for the six-year period from 2010 to 2015.
 
+    Moderate to high amount of sample variability as the variation of opinions from education administrators will vary not only between Russia and the United States also within those contexts as well. There is potential bias in the self-reporting nature of this experiment as well as the short time frame which may not be applicable to understanding longer term trends.
+
 D.  A sample of 75 randomly selected countries' educational funding levels for each of the past 25 years.
+
+Medium sampling variability due to the large sample size and the large time frame. While depending on the countries selected it could provide a more robust examination of the entire world as opposed to design B. There is potential bias in the the sample years is only 25 years and not representative of longer term trends.
 
 ## Question 3
 
@@ -40,8 +58,51 @@ D.  A sample of 75 randomly selected countries' educational funding levels for e
 
 Using the `hanmerKalkanANES` dataset (posted on ELMs), construct a cross-tab with `presvote` (dichotomous variable coded with a value label) as the dependent variable and `ageCategorical` (1 = 18-30; 2 = 31-40; 3 = 41-50; 4 = 51-60; and 5 = 61-over) as the independent variable. Create a table with the cross-tab results and interpret them -- i.e., what is the apparent association, if any, between age and U.S. presidential vote in 2004?
 
+```{r}
+library(tidyverse)
+library(modelsummary)
+library(dplyr)
+
+load("~/Desktop/hanmerKalkanANES.RData")
+
+```
+
+```{r}
+
+x <- x |>
+  mutate(ageCategorical = case_when(
+         18<=age & age<=30 ~ "1",
+         31<=age & age<=40 ~ "2",
+         41<=age & age<=50 ~ "3",
+         51<=age & age<=60 ~ "4",
+         61<=age ~ "5"
+  ))
+
+summary(x$age)
+
+datasummary_crosstab(presvote ~ ageCategorical, data = x)
+```
+
+The cross table indicates that Kerry received more votes aged 60 and above and those aged 18 to 30 than Bush, while Bush received more in the 31 to 60 age range than Kerry. There we could argue that Kerry received more support among younger and older voters while Bush received more vote from those middle aged.
+
 Next, what is:
 
 A.  The conditional distribution of respondents who are 41-50 that voted for Kerry?
 
+    ```{r}
+    x |>
+      summarize(prob = sum(ageCategorical == "3" & presvote == "Kerry",na.rm = TRUE)/sum 
+      (ageCategorical == "3", na.rm = TRUE))
+    ```
+
+    The conditional distribution for those aged 41-50 and voted for Kerry is 0.4285714.
+
 B.  The conditional distribution of respondents who are 41-50 that voted for Bush?
+
+    ```{r}
+    x |>
+      summarize(prob = sum(ageCategorical == "3" & presvote == "Bush",na.rm = TRUE)/sum 
+      (ageCategorical == "3", na.rm = TRUE))
+    ```
+
+    The conditional distribution for those aged 41-50 and voted for Bush is 0.5714286.
