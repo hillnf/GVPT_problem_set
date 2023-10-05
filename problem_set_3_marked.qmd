@@ -14,9 +14,17 @@ Please upload your completed assignment to the ELMs course site (under the assig
 
 **Total points: 30**
 
+::: {.callout-tip title="HG comments"}
+29/30
+:::
+
 ## Question 1
 
 *Points: 10*
+
+::: {.callout-tip title="HG comments"}
+10/10
+:::
 
 Suppose I want to examine the hypothesis that consuming political news coverage from cable network channels (e.g., CNN, MSNBC, Fox News, etc.) causes citizens to have less trust in government than if they were to consume it from mainstream print media (e.g., New York Times, Wall Street Journal, etc.). What is more, suppose that I believe that this effect is greatest among "young" citizens. Design the contours of an experiment to test this proposition (and be sure to sketch the key elements of the experimental design). Second, briefly describe any significant shortcomings that the experimental design might have.
 
@@ -34,6 +42,10 @@ There are several key potenial shorting comings to this experiment. First, is th
 
 *Points: 10*
 
+::: {.callout-tip title="HG comments"}
+9/10
+:::
+
 Below are four hypothetical research designs to determine the effects of democratic governance on the funding of educational institutions. Briefly evaluate each sampling design in terms of its: (1) sampling variability; and, (2) sources of potential bias.
 
 A.  A sample of educational funding levels for every country in Europe for each of the last 100 years.
@@ -41,18 +53,36 @@ A.  A sample of educational funding levels for every country in Europe for each 
     Answer:
 
     Low sample variability as it covers every European country from every year for the past century creating comprehensive data set for Europe with a little chance for randomness. Potential bias in only exclusively looking at the 44 countries in Europe as opposed to a random selection of countries from across the globe.
+    
+::: {.callout-tip title="HG comments"}
+Correct.
+:::
 
 B.  A sample of educational funding levels in five randomly picked countries drawn from the global population of countries for each of the last 10 years.
 
     Answer:
 
-    Medium to high variability as the selection of five countries for each year provides a high degree of randomness. Potential bias in that the countries selected may not be representative of the general global and or regional trends depending on which countries are selected.
+Medium to high variability as the selection of five countries for each year provides a high degree of randomness. 
+
+::: {.callout-tip title="HG comments"}
+Correct.
+:::
+
+Potential bias in that the countries selected may not be representative of the general global and or regional trends depending on which countries are selected.
+    
+::: {.callout-tip title="HG comments"}
+Randomness will account for this. 
+:::
 
 C.  A survey of educational administrators that yields responses that allow for a comparison of educational funding levels in Russia and the United States for the six-year period from 2010 to 2015.
 
     Answer:
 
     Moderate to high amount of sample variability as the variation of opinions from education administrators will vary not only between Russia and the United States also within those contexts as well. There is potential bias in the self-reporting nature of this experiment as well as the short time frame which may not be applicable to understanding longer term trends.
+    
+::: {.callout-tip title="HG comments"}
+Correct.
+:::
 
 D.  A sample of 75 randomly selected countries' educational funding levels for each of the past 25 years.
 
@@ -60,18 +90,30 @@ Answer:
 
 Medium sampling variability due to the large sample size and the large time frame. While depending on the countries selected it could provide a more robust examination of the entire world as opposed to design B. There is potential bias in the the sample years is only 25 years and not representative of longer term trends.
 
+::: {.callout-tip title="HG comments"}
+Correct.
+:::
+
 ## Question 3
 
 *Points: 10*
 
+::: {.callout-tip title="HG comments"}
+10/10
+:::
+
 Using the `hanmerKalkanANES` dataset (posted on ELMs), construct a cross-tab with `presvote` (dichotomous variable coded with a value label) as the dependent variable and `ageCategorical` (1 = 18-30; 2 = 31-40; 3 = 41-50; 4 = 51-60; and 5 = 61-over) as the independent variable. Create a table with the cross-tab results and interpret them -- i.e., what is the apparent association, if any, between age and U.S. presidential vote in 2004?
+
+::: {.callout-tip title="HG comments"}
+Please avoid hard coding file paths into your scripts (for example: `~/Desktop/hanmerKalkanANES.RDataa`). This causes an error when someone else tries to render your script. Instead, use `here::here()`.  
+:::
 
 ```{r}
 library(tidyverse)
 library(modelsummary)
 library(dplyr)
 
-load("~/Desktop/hanmerKalkanANES.RData")
+load(here::here("hanmerKalkanANES.RData"))
 
 ```
 
