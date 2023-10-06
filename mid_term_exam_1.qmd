@@ -158,7 +158,7 @@ Complete the cross-tab below so that you may properly evaluate my hypothesis. Br
 Table entries represent raw counts of observations within each cell.
 :::
 
-![](images/Screen Shot 2023-10-06 at 12.15.11 PM.png)
+![](images/Screen%20Shot%202023-10-06%20at%2012.15.11%20PM.png)
 
 Answer:
 
