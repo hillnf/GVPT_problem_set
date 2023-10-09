@@ -178,8 +178,6 @@ beta_0 + beta_1 * 17.61538
 The total aggregate error for Colorado and Georgia is .59.
 
 
-
-
 ## Question 4
 
 *Points: 5*
