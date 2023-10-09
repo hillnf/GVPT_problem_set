@@ -11,6 +11,7 @@ execute:
   warning: false
 ---
 
+
 Please read all of the questions and tables carefully and follow all instructions. Each question has an allotted point value. Be as thorough and specific as possible; extra calculations and incorrect information, even in the presence of correct information, will result in point deductions. Be sure to show all formulas and all necessary work to answer the questions. You may upload your completed exam to the Elms course site (attach to Exam #1).
 
 ::: callout-note
@@ -31,6 +32,7 @@ The following is a list of observed values, ordered from lowest to highest: 62, 
 
 Answer:
 
+
 ```{r}
 
 
@@ -39,6 +41,7 @@ data <- c(62, 63, 63, 64, 66, 67, 68, 68, 69, 70, 71, 72, 72, 74, 75, 76)
 summary(data)
 
 ```
+
 
 Five Number Summary:
 
@@ -184,6 +187,7 @@ Please include your R code. All data sets referenced below are available through
 
 **Total points: 20**
 
+
 ```{r}
 
 library(tidyverse)
@@ -199,11 +203,13 @@ library(broom)
 
 ```
 
+
 ### Question 1
 
 *10 points total*
 
 Use the `states` dataset (the U.S. state is the unit of analysis) and estimate a bivariate regression where the size of a state's urban population (`urban`) explains variation in abortion attitudes (`permit`) and report the results in a professionally formatted table. The variable `permit` measures the percentage (on a 0-to-100 scale) of a state's population that says abortion should always be allowed. The variable `urban` measures the percentage (on a 0-to-100 scale) of a state's population in an urban area. Answer the following questions.
+
 
 ```{r}
 library(stargazer)
@@ -228,6 +234,7 @@ cat(summary_table)
 
 ```
 
+
 A.  Interpret the effect of the independent variable on the dependent variable. *2 points*
 
     Since the coefficient is positive at .373 this indicates a positive relationship between a state's urban population and it's attitude towards abortion. Therefore if urban population increase we can expect that attitudes toward abortion will also increase.
@@ -237,6 +244,7 @@ B.  Interpret the estimate of the intercept. Is it substantively meaningful to i
     With the intercept being 9.639 and we set all the IV values to 0 we can assume that this is the value of abortion values when we have a 0 in urban population. This value is probably not meaningful by itself as it unlikely we would ever encounter a state with an urban population of 0.
 
 C.  Compute the residual sum of squares for the following two observations combined: (1) California; and (2) Texas. *2 points*
+
 
     ```{r}
 
@@ -250,6 +258,7 @@ C.  Compute the residual sum of squares for the following two observations combi
 
 
     ```
+
 
     Answer: Residual Sum of Squares for California and Texas combined: 0
 
@@ -267,6 +276,7 @@ E.  Is the relationship between the independent and dependent variable causal? W
 
 Use the `gss` data set (the unit of analysis is the individual survey respondent) and evaluate the hypothesis that Republicans had less confidence in the executive branch of the federal government than Democrats in 2012. Use the following variables: `partyid` is a 7-category ordinal indicator (0 = Strong Democrat; 1 = Weak Democrat; 2 = Independent Democrat; 3 = Independent; 4 = Independent Republican; 5 = Weak Republican; 6 = Strong Republican); and `confed` is a 3-category ordinal indicator (1 = "a great deal" of confidence; 2 = "only some;" 3 = "hardly any"). Do the data support the hypothesis and how do you know?
 
+
 ```{r}
 
 gss <- filter(gss, year == 2012)
@@ -275,6 +285,7 @@ gss <- filter(gss, year == 2012)
 cross_tab <- table (gss$partyid, gss$confed)
 cross_tab
 ```
+
 
 Answer:
 
@@ -285,6 +296,7 @@ The cross tab shows that in 2012 only a handful of republicans has a great deal 
 *5 points*
 
 Use the `world` dataset and evaluate the distributions for each the following variables: `literacy` (a country's literacy rate) and `free_overall` (a country's degree of economic freedom). Be sure to visually display each distribution and thoroughly describe their key attributes. Next, evaluate the bivariate relationship between the two variables -- i.e., is economic freedom associated with literacy? If so, what is the nature of the relationship and how do you know? In doing so, be sure to use proper descriptive tools (and thus do not rely simply on a regression output).
+
 
 ```{r}
 
@@ -332,6 +344,8 @@ summary(model)
 
 ```
 
+
 Answer:
 
 The distribution of Literacy Rates shows a distribution that is highly skewed to the left with most of the values falling between 75% and 100% in a states literacy race. The `free_overall` variable that show economic freedom has a more centered distribution with a slight skew to the left. The bivariate relationship between shows a positive but relatively weak relationship between the two variables as the scatter plot shows. The regression output provided a coefficient of 0.234 which also supports the claim that there is a positive but weak relationship between the two variables.
+
