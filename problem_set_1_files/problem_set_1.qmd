@@ -1,0 +1,168 @@
+---
+title: "Problem Set 1"
+subtitle: "Due date: 18 September"
+format: 
+  html:
+    self-contained: true
+editor: visual
+execute: 
+  echo: true
+---
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 25**
+
+## Question 1
+
+*Points: 5*
+
+Using the `gss` dataset (which has survey data with the individual respondent as the unit of analysis), create a frequency distribution and bar chart for each of the following variables: `degree` and `partyid_3`. Describe the distribution of each variable in detail.
+
+::: callout-note
+The `gss` dataset can be found in `poliscidata::gss`. Take a look at `?gss` to see what these variables measure.
+:::
+
+##### Answer 1 : Frequency Distribution & Bar Chart (degree)
+```{r}
+
+freq(gss$degree) # Describing a Nominal-Level Variable
+
+```
+ 
+ The distribution of this variable is skewed to the right as the bulk of the observations (nearly half) occur at the high school level thereby shifting the center of of the distribution to the right. However in some regards the distribution appears bi modal as observations on the left increase with the number of bachelor and graduate degrees. 
+
+
+
+
+
+```
+```
+##### Answer 1 : Frequency Distribution & Bar Chart (partyid_3)
+
+```{r}
+
+#Frequency Table (Party ID)
+
+freq(gss$partyid_3,) # Describing a Nominal-Level Variable
+
+
+```
+
+This variable has a relatively symmetric distribution with a slight skew to the left. The center of the distribution is easy to locate and although it being located further to the left due to similarity in the number of democrats and independents.  
+
+
+```
+
+## Question 2
+
+Examine the following vector of (fake) student IQ test scores:
+
+```{r}
+iq <- c(
+  145, 139, 126, 122, 125, 130, 96, 110, 118, 118, 101, 142, 134, 124, 112, 109, 
+  134, 113, 81, 113, 123, 94, 100, 136, 109, 131, 117, 110, 127, 124, 106, 124, 
+  115, 133, 116, 102, 127, 117, 109, 137, 117, 90, 103, 114, 139, 101, 122, 105, 
+  97, 89, 102, 108, 110, 128, 114, 112, 114, 102, 82, 101
+)
+
+
+
+```
+
+### Part A
+
+*Points: 5*
+
+Find the five-number summary, mean, and standard deviation for these data. Also, are there any suspected outliers in the distribution? If so, what are they and how do you know?
+
+```{r}
+
+x <- c(145, 139, 126, 122, 125, 130, 96, 110, 118, 118, 101, 142, 134, 124, 112, 109, 134, 113, 81, 113, 123, 94, 100, 136, 109, 131, 117, 110, 127, 124, 106, 124, 115, 133, 116, 102, 127, 117, 109, 137, 117, 90, 103, 114, 139, 101, 122, 105,97, 89, 102, 108, 110, 128, 114, 112, 114, 102, 82, 101)
+
+fivenum(x)
+mean(x)
+sd(x)
+```
+Five Number Summary
+Min - 81.0
+Q1 - 104.0
+Median - 114.0
+Q3 - 125.5
+Max - 145.0
+Mean - 114.9833
+SD - 14.80093
+
+We can determine the interquartile range and use calculate the upper and lower fence of the data. The interquatile range (Q3-Q1) is 21.5 and the upper and lower fence (Q3,1 +/- (1.5*IQR)) is 157.75 and 71.75 respectivly. As all the data falls within these two fences we can determine that there is not significant outliers in this particular dataset. 
+
+
+
+```
+
+
+### Part B
+
+*Points: 5*
+
+In large populations, IQ scores are standardized to have a mean of 100 and a standard deviation of 15. In what way does the distribution among these students differ from the overall population?
+
+Based on the rule of 68-95-99.7 we would expect 68% of the total population to fall between 85 and 115, 95% between 70 and 130, and 99.7% less than 55 or higher than 145. Based on these prediction we can see that the group of students generally falls within 68% of the total population and follows the  distribution of the general population.
+
+
+```
+
+
+## Question 3
+
+*Points: 5*
+
+A polling firm is interested in determining how different characteristics of an individual affect vote choice. They record the following characteristics for each survey respondent - race, age, household income, and party affiliation. What "type" of variable does each characteristic most likely represent?
+
+### Answer 
+Race and party affiliation represent categorical and nominal variables as they are not quantifiable entities and cant be order. While household income and age represent continuous variables as they can assume an infinite number of real values. 
+
+
+
+
+```
+
+
+## Question 4
+
+*Points: 5*
+
+Using the `states` dataset (the unit of analysis is each U.S. state), generate a box plot and density curve for each of the `vep12_turnout` and `cig_tax12` variables. Describe the distribution of each variable in detail.
+
+::: callout-note
+The `states` data set can be found in `poliscidata::states`. Take a look at `?states` to see what these variables measure.
+:::
+
+```{r}
+
+
+#  Box Plot and Density Curve of Cigarette Tax per pack in 2012
+
+boxplot(poliscidata::states$cig_tax12,
+  ylab = "Cigarette Tax")
+
+ggplot(poliscidata::states, aes(x=cig_tax12)) + 
+  geom_density()
+```
+The variable has a distribution skewed to the left with most of the data centered around 1 with an outlier 
+
+```{r}
+# Box Plot and Density Curve of Voter Turnout of Eligible Population in 2012
+
+boxplot(poliscidata::states$vep12_turnout,
+  ylab = "Voter Turnout")
+
+ggplot(poliscidata::states, aes(x=vep12_turnout)) + 
+  geom_density() 
+``` 
+The distribution of the vep12_turnout variable is standard with most of the data  falling within 1 and 2 standard deviations from the mean. 
+  
+?states
+
+
+```
+
