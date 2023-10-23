@@ -14,6 +14,14 @@ Please upload your completed assignment to the ELMs course site (under the assig
 
 **Total points: 25**
 
+```{R}
+
+library(tidyverse)
+library(ggplot2)
+
+
+```
+
 ## Question 1
 
 *Total points: 6*
@@ -38,11 +46,61 @@ tibble::tibble(
 
 What is the probability of being 25-30 or a non-voter?
 
+```{r}
+
+age_25_30 <- 40
+non_voters <- 330
+total_population <- 1000
+
+probability <- (age_25_30 + non_voters) / total_population
+
+probability
+
+
+```
+
+The probability of being a non-voter and being aged is 37%
+
 ### Part B
 
 *Points: 4*
 
 Assuming a normal distribution, report the 95% confidence intervals for the percentage of 18-to-24-year-olds who did not vote, and then the percentage of 25-to-30-year-olds who did not vote.
+
+```{r}
+
+confidence_interval <- function (p, n) {
+  se <- sqrt(p*(1-p)/n)
+  lower_range <- p - 1.96*se
+  upper_range <- p + 1.96*se
+  return(c(lower_range,upper_range))
+}
+
+p_18_to_24 <- 70/120
+CI_18_to_24 <- confidence_interval(p_18_to_24, 120)
+
+
+p_25_to_30 <- 70/120 
+CI_25_to_30 <- confidence_interval(p_25_to_30, 90)
+
+
+list(CI_18_to_24 = CI_18_to_24, CI_25_to_30 = CI_25_to_30)
+
+
+
+
+
+
+
+```
+
+```         
+CI Non-Voters 18 to 24
+[1] 0.4951233 0.6715434
+
+CI Non-Voters 25 to30
+[1] 0.4814771 0.6851896
+```
 
 ## Question 2
 
@@ -56,11 +114,32 @@ Assume that the standard deviation for the population distribution of a state in
 
 Calculate the spread of the sampling distribution for each of the following sample sizes: 1, 4, 25, 100, 250, 1000, 5,000, and 10,000.
 
+```{R}
+
+population_stddev <- 200
+
+sample_sizes <- c(1, 4, 25, 100, 250, 1000, 5000, 10000)
+
+standard_errors <- population_stddev / sqrt(sample_sizes)
+
+results <- data.frame(Sample_Size = sample_sizes, Standard_Error = standard_errors)
+print(results)
+
+
+
+
+
+```
+
 ### Part B
 
 *Points: 1*
 
 Describe specifically how the variability of the sampling distribution changes as the sample size varies. Considering the expense of running a poll, which sample size do you think is most optimal if conducting the poll?
+
+Answer:
+
+A smaller sample size would mean the mean is more likely to deviate from the population mean and the confidential interval would be wider. A larger sample size would mean the sample mean is closer to the population mean and the confidence interval would be narrower and more precise. Given the large costs and the time it takes to conduct a large sample poll, the 1000 number as it would balance the cost and accuracy the most effectively.
 
 ### Part C
 
@@ -68,11 +147,48 @@ Describe specifically how the variability of the sampling distribution changes a
 
 Display your results graphically (using R) with the sample size on the x-axis and the standard error (of the sampling distribution) on the y-axis.
 
+```{r}
+
+library(ggplot2)
+
+sample_sizes <- c(1, 4, 25, 100, 250, 1000, 5000, 10000)
+standard_errors <- 200 / sqrt(sample_sizes)  # Calculate standard errors
+
+data <- data.frame(Sample_Size = sample_sizes, Standard_Error = standard_errors)
+
+ggplot(data, aes(x = Sample_Size, y = Standard_Error)) +
+  geom_point() +
+  labs(title = "Sampling Distribution vs. Sample Size",
+       x = "Sample Size",
+       y = "Standard Error")
+
+
+
+
+```
+
 ## Question 3
 
 *Points: 4*
 
 Suppose you conduct a survey (to generate a sample mean of interest) and find that it has a margin of error of 4.5 with a sample size of 900 using a 95% confidence interval. What would the margin of error be for a 90% confidence interval?
+
+```{r}
+
+E_95 <- 4.5
+Z_90 <- qnorm(0.95) 
+Z_95 <- qnorm(0.975) 
+E_90 <- E_95 * (Z_90 / Z_95)
+E_90
+
+
+
+
+```
+
+Answer:
+
+Margin of error for a 90% confidence interval is 3.78
 
 ## Question 4
 
@@ -84,8 +200,107 @@ Assume that, in State A, the mean income in the population is \$20,000 with a st
 Assume a normal distribution for both questions.
 :::
 
+```{r}
+
+population_mean <- 20000
+population_stddev <- 2000
+
+n <- 900
+
+se <- population_stddev / sqrt(n)
+
+sample_mean <- 20200
+z_score_900 <- (sample_mean - population_mean) / se
+
+probability_900 <- 1 - pnorm(z_score_900)
+
+cat("Probability (n = 900):", probability_900, "\n")
+
+n <- 25
+
+se <- population_stddev / sqrt(n)
+
+sample_mean <- 20200
+z_score_25 <- (sample_mean - population_mean) / se
+
+probability_25 <- 1 - pnorm(z_score_25)
+
+cat("Probability (n = 25):", probability_25, "\n")
+
+
+
+
+```
+
+A sample of size of 900 the probability of getting a a sample mean income of \$20,200 or greater would be .13%. With a sample size of 25 the probability would be 31%.
+
 ## Question 5
 
 *Points: 4*
 
 Assume that a coin is fair. If I flip a coin 500 times, what is a 95% confidence interval for the range of the count of heads that I will get? What if I flip the coin 5,000 times? What about 50,000 times?
+
+Answer for 500 times:
+
+```{r}
+n_500 <- 500
+prob500 <- 0.5
+
+z_500 <- qnorm(0.975)
+
+
+CI_95_500 <- c(prob500 -z_500 * sqrt(prob500 *(1 - prob500)/ n_500),
+               prob500 + z_500 * sqrt(prob500 * (1 - prob500)/ n_500))
+
+
+CI_95_500
+               
+
+
+
+
+
+
+
+```
+
+Answer for 5000 times:
+
+```{r}
+
+n_5000 <- 5000
+prob5000 <- 0.5
+
+z_5000 <- qnorm(0.975)
+
+
+CI_95_5000 <- c(prob5000 -z_5000 * sqrt(prob5000 *(1 - prob5000)/ n_5000),
+               prob5000 + z_5000 * sqrt(prob5000 * (1 - prob5000)/ n_5000))
+
+
+CI_95_5000
+
+
+```
+
+Answer for 50000 times:
+
+```{r}
+
+n_50000 <- 50000
+prob50000 <- 0.5
+
+z_50000 <- qnorm(0.975)
+
+
+CI_95_50000 <- c(prob50000 -z_50000 * sqrt(prob50000 *(1 - prob50000)/ n_50000),
+               prob50000 + z_50000 * sqrt(prob50000 * (1 - prob50000)/ n_50000))
+
+
+CI_95_50000
+
+
+
+
+
+```
