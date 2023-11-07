@@ -32,7 +32,7 @@ Make a cross-tab, by hand, of the relationship between these two variables based
 
 *Points: 2*
 
-Do the data support my hypothesis? Be sure to explain the nature of the relationship (or lack thereof, if relevant).
+Does the data support my hypothesis? Be sure to explain the nature of the relationship (or lack thereof, if relevant).
 
 ### Part C
 
