@@ -114,7 +114,7 @@ The two tailed P value is a measure that helps assess the probability of observi
 
 ### Part E
 
-Does the data support my hypothesis? Why, or why not?
+Do the data support my hypothesis? Why, or why not?
 
 Since we got a p value that is less than the significance of the typical use .05 significance level we can reject the null hypothesis that the mean mathematics SAT score for University of Maryland students is equal to 600.
 
