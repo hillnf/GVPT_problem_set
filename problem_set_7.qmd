@@ -124,6 +124,8 @@ X\^2 = 6.1443
 
 *Points: 2*
 
+Using the chi-square statistic that you computed in question 1(c), can you reject the null hypothesis of no relationship between these two variables with 95% confidence? Why, or why not?
+
 With a Chi value of 6.1443 for a 95% confidence level and 6 degrees of freedom. The critical value at a 95% confidence level with 6 degrees of freedom is approximately 12.592.
 
 Since our calculated chi-square statistic (6.1443) is less than the critical value (12.592), we do not have enough evidence to reject the null hypothesis at a 95% confidence level. This means that, with 95% confidence, you cannot conclude that there is a significant relationship between age and the enjoyment of watching golf based on the data we collected.
