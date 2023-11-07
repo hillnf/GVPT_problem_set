@@ -64,7 +64,7 @@ P(S\|C) = .60 x .15/ .175
 
 P(S\|C) = .5143
 
-Probability of that a person who develops lung cancer was a smoker who smoked at least a pack a day is around 51.43 %
+Probability ofthat a person who develops lung cancer was a smoker who smoked at least a pack a day is around 51.43 %
 
 P(S) = Probability of being a smoker is .15
 
