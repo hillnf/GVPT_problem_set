@@ -1,0 +1,198 @@
+---
+title: "Problem Set 8"
+subtitle: "Due date: 20 November"
+format: 
+  html:
+    self-contained: true
+toc: true
+editor: visual
+execute: 
+  echo: true
+---
+
+```{r}
+
+library(tidyverse)
+library(poliscidata)
+library(stargazer)
+
+
+
+
+
+
+```
+
+Please upload your completed assignment to the ELMs course site (under the assignments menu). Remember to include an annotated script file for all work with R and show your math for all other problems (if applicable, or necessary). Please also upload your completed assignment to the Github repository that you have shared with us. *We should be able to run your script with no errors.*
+
+**Total points: 30**
+
+## Question 1
+
+*Points: 5*
+
+::: {.callout-tip}
+5/5
+:::
+
+For the following regression equation, $\hat{Y} = 8.5 + 6x + \epsilon$, the standard error for $\beta_0$ is 2.5, the standard error for $\beta_1$ is 3.5, and the sample size is 2000. Find the t-statistic, 95% confidence interval, and p-value (using a two-tailed test) for $\beta_1$.
+
+Is $\beta_1$ statistically significant at the 0.05-level with a two-tailed test? Why or why not?
+
+**Answer:**
+
+t = 6 - 0 / 3.5 , t = 1.714
+
+CI = 6 +/- (1.95\*3.5) = (-0.86, 12.825)
+
+Degrees of Freedom = 1998
+
+P value is .086
+
+Given that the p-value is greater than 0.05, we would not reject the null hypothesis at the 0.05 significance level in a two-tailed test. This means that β1​ is not statistically significant at the 0.05-level. In other words, we do not have sufficient evidence to conclude that there is a linear relationship between x and y.
+
+```{r}
+
+beta_1 <- 6
+SE_beta_1 <- 3.5
+n <- 2000
+
+t_stat <- beta_1 / SE_beta_1
+
+CI <- c(beta_1 - qt(0.975, df=n-2)*SE_beta_1, beta_1 + qt(0.975, df=n-2)*SE_beta_1)
+
+p_value <- 2 * (1 - pt(abs(t_stat), df=n-2))
+
+print(paste("t-statistic: ", t_stat))
+print(paste("95% confidence interval: [", CI[1], ", ", CI[2], "]"))
+print(paste("p-value: ", p_value))
+
+if (p_value < 0.05) {
+  print("beta_1 is statistically significant at the 0.05-level with a two-tailed test.")
+} else {
+  print("beta_1 is not statistically significant at the 0.05-level with a two-tailed test.")
+}
+
+
+```
+
+## Question 2
+
+*Points: 5*
+
+::: {.callout-tip}
+5/5
+:::
+
+Suppose you estimate an OLS regression and retrieve a $R^2$ value of 0.45. If the Total Sum of Squares (TSS) from that regression equals 4,700, what is the value for the Residual Sum of Squares (RSS)?
+
+**Answer:**
+
+RSS = 4700 \* (1 - .45)
+
+RSS = 2,585
+
+## Question 3
+
+*Points: 5*
+
+::: {.callout-tip}
+5/5
+:::
+
+Suppose you estimate a bivariate regression with a sample size of 102 and obtain a regression coefficient ($\beta_1$) of 5.0. What is the largest standard error that $\beta_1$ could have and still be statistically significant (i.e., reject the null hypothesis of no relationship) at the 0.05 level with a one-tailed test?
+
+**Answer:**
+
+The standard of error for .05 in a one tailed test is 1.646.
+
+SE(B1) = 5 / 1.646 = 3.04
+
+```{r}
+
+beta_1 <- 5.0
+n <- 102
+
+t_critical <- qt(0.95, df=n-2)
+
+largest_SE <- beta_1 / t_critical
+
+print(paste("The largest standard error that beta_1 could have and still be statistically significant at the 0.05 level with a one-tailed test is: ", largest_SE))
+
+
+
+```
+
+## Question 4
+
+*Points: 5*
+
+::: {.callout-tip}
+4/5
+:::
+
+Using the `states` dataset from the `poliscidata` package, produce a scatterplot of the variables `romney2012` and `hispanic10` (with `romney2012` as the dependent variable on the y-axis). Fit a regression line to the scatterplot. Describe the scatterplot and include a copy of it. Note any suspected outliers, if any (a visual inspection will suffice for this question).
+
+::: callout-note
+The variable `romney2012` measures the percentage of the state's vote that Mitt Romney received in the 2012 presidential election, and `hispanic10` indicates the percentage of the state's population that identified as Hispanic in 2010.
+:::
+
+**Answer:**
+
+```{r}
+
+library(poliscidata)
+library(ggplot2)
+
+data("states")
+
+p <- ggplot(states, aes(x = hispanic10, y = romney2012)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  labs(x = "Hispanic Population in 2010 (%)",
+       y = "Romney Votes in 2012 (%)",
+       title = "Scatterplot of Romney 2012 Votes vs Hispanic Population in 2010")
+
+print(p)
+
+
+```
+
+::: {.callout-tip}
+You also need to explain the relationship indicated by the graph. 
+:::
+
+On visual inspection there appears to be several significant outliers in a state's percentage of Hispanic population in 2010 and the vote for Mitt Romney in 2012. For example, there is one state that had over a 70% vote for Mitt and around a 14% Hispanic population and A state where around 25% voted for Romney and with an only 8% Hispanic population; both of these would be considered outliers.
+
+## Question 5
+
+*Points: 10*
+
+::: {.callout-tip}
+10/10
+:::
+
+Estimate a bivariate regression with `romney2012` as the dependent variable and `hispanic10` as the independent variable and report the results in a professionally formatted table. In as much detail as possible, describe (and interpret) the regression results.
+
+**Answer:**
+
+```{r}
+
+library(poliscidata)
+library(ggplot2)
+
+data("states")
+
+model <- lm(romney2012 ~ hispanic10, data = states)
+
+stargazer(model, type = "text", title = "Regression Results", 
+          dep.var.labels = "Romney Votes in 2012 (%)",
+          covariate.labels = "Hispanic Population in 2010 (%)")
+
+
+
+
+
+```
+
+The coefficient of the Hispanic population variable is -0.196. This indicates that, on average, for each 1% increase in the Hispanic population in 2010, the percentage of votes for Romney in the 2012 election decreased by 0.196%. However, since this coefficient is negative, it suggests a negative relationship between the Hispanic population and Romney votes. The standard error of the coefficient is 0.145. This standard error is a measure of the uncertainty or variability associated with the estimated coefficient. A smaller standard error generally indicates a more precise estimate.The coefficient for the constant is 51.877, and it is statistically significant at the 1% level . This means that even if the Hispanic population is zero , the model predicts Romney votes to be 51.877%. The t-statistic (51.877 / 2.100) is used to determine statistical significance. The adjusted R2 here is 0.017, which is lower than the R2, suggesting that the inclusion of the Hispanic population variable does not significantly improve the explanatory power of the model.
